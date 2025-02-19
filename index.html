@@ -12,7 +12,7 @@
         img { max-width: 100%; height: auto; margin-bottom: 10px; }
         button { display: block; margin: 10px auto; padding: 10px 20px; font-size: 16px; background-color: white; color: #1e3a8a; border: none; border-radius: 5px; cursor: pointer; }
         button:hover { background-color: #ccc; }
-        #next-btn { margin-top: 20px; position: relative; bottom: 0; }
+        #next-btn { margin-top: 20px; display: none; }
         @media (max-width: 600px) { #map { height: 300px; width: 90%; } }
     </style>
 </head>
@@ -33,7 +33,7 @@
         <p id="total-score">Total Score: 0</p>
         <p id="distance-message"></p>
         <p id="encouragement-message"></p>
-        <button id="next-btn" onclick="nextPhoto()" style="display:none;">Photo suivante</button>
+        <button id="next-btn" onclick="nextPhoto()">Photo suivante</button>
     </div>
 
     <script>
@@ -55,7 +55,11 @@
             { src: "B.png", lat: 50.94368200910033, lon: 6.958593086242689 },
             { src: "C.png", lat: 51.051540, lon: 3.678279 },
             { src: "D.png", lat: 50.88552443379651, lon: 4.671308692061346 },
-            { src: "E.png", lat: 50.932361988000245, lon: 5.48798231326981 }
+            { src: "E.png", lat: 50.932361988000245, lon: 5.48798231326981 },
+            { src: "F.png", lat: 13.408531, lon: -16.667499 },
+            { src: "G.png", lat: 50.848125, lon: 4.382353 },
+            { src: "H.png", lat: 50.892162, lon: 4.417957 },
+            { src: "I.png", lat: 50.872219, lon: 4.403013 }
         ];
         
         let currentImageIndex = 0;
@@ -77,10 +81,10 @@
         }
 
         function submitGuess() {
-            if (!marker) return alert("Click on the map to select a location");
+            if (!marker) return alert("Clique sur la carte pour sélectionner un emplacement");
             const actual = images[currentImageIndex];
             const distance = getDistance(marker.getLatLng().lat, marker.getLatLng().lng, actual.lat, actual.lon);
-            let score = distance > 10 ? 0 : 200;
+            let score = Math.max(0, Math.floor(200 - (distance * 20)));
             totalScore += score;
             
             document.getElementById("current-score").textContent = "Current Score: " + score;
@@ -92,22 +96,82 @@
             line = L.polyline([[marker.getLatLng().lat, marker.getLatLng().lng], [actual.lat, actual.lon]], {color: 'red', dashArray: '5, 10'}).addTo(map);
             
             document.getElementById("submit-btn").style.display = "none";
+            
+            // Check if this is the last image
+            if (currentImageIndex === images.length - 1) {
+                const nextBtn = document.getElementById("next-btn");
+                nextBtn.textContent = "Final Score";
+                nextBtn.onclick = showFinalScreen;
+            }
             document.getElementById("next-btn").style.display = "block";
         }
-        
+
+        function showFinalScreen() {
+            // Hide all game elements
+            document.getElementById("photo").style.display = "none";
+            document.getElementById("map").style.display = "none";
+            document.getElementById("submit-btn").style.display = "none";
+            document.getElementById("next-btn").style.display = "none";
+            document.getElementById("current-score").style.display = "none";
+            document.getElementById("total-score").style.display = "none";
+            document.getElementById("distance-message").style.display = "none";
+            document.getElementById("encouragement-message").style.display = "none";
+
+            // Show final message
+            const gameDiv = document.getElementById("game");
+            gameDiv.innerHTML = `
+                <h1>ehlaaaa bravo bien joué !!</h1>
+                <h2>Score final: ${totalScore}</h2>
+            `;
+        }
+
+        function getDistance(lat1, lon1, lat2, lon2) {
+            function toRad(value) { return value * Math.PI / 180; }
+            const R = 6371;
+            const dLat = toRad(lat2 - lat1);
+            const dLon = toRad(lon2 - lon1);
+            const a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon/2) * Math.sin(dLon/2);
+            return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        }
+      
+        function nextPhoto() {
+            currentImageIndex++;
+            if (currentImageIndex >= images.length) {
+                alert("Fin du jeu ! Score total: " + totalScore);
+                return;
+            }
+            
+            // Remove old markers and lines
+            if (marker) map.removeLayer(marker);
+            if (line) map.removeLayer(line);
+            marker = null;
+            line = null;
+            
+            // Update the photo
+            document.getElementById("photo").src = images[currentImageIndex].src;
+            
+            // Reset UI elements
+            document.getElementById("next-btn").style.display = "none";
+            document.getElementById("submit-btn").style.display = "block";
+            document.getElementById("encouragement-message").textContent = "";
+            document.getElementById("distance-message").textContent = "";
+            // Removed the line that was resetting current score to 0
+        }
+          
         function getEncouragementMessage(score) {
             if (score === 200) return "OMG BRAVO T'ES UN KING";
             if (score >= 180) return "Impressionnant, t'es pas loin de la perfection !";
             if (score >= 160) return "Bien joué, c'était presque ça !";
-            if (score >= 140) return "Pas mal du tout, t'as un bon oeil !";
+            if (score >= 140) return "Pas mal du tout, t'as un bon œil !";
             if (score >= 120) return "T'es sur la bonne voie, continue !";
             if (score >= 100) return "Bon score, mais y’a encore une marge !";
             if (score >= 80) return "Ouloulou c’est pas fameux, mais on y croit !";
             if (score >= 60) return "T’as visé la bonne planète, c’est déjà ça !";
             if (score >= 40) return "Mdr, t’es sûr que t’as regardé la photo ?";
             if (score >= 20) return "On va dire que t’as cliqué au hasard, hein ?";
-            return "0 points ?! Franchement, même Google Maps il fait mieux...";
+            return "0 points ?! Franchement, même Google Maps fait mieux...";
         }
+      
     </script>
 </body>
 </html>
