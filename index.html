@@ -94,6 +94,20 @@
             document.getElementById("submit-btn").style.display = "none";
             document.getElementById("next-btn").style.display = "block";
         }
+        
+        function getEncouragementMessage(score) {
+            if (score === 200) return "OMG BRAVO T'ES UN KING";
+            if (score >= 180) return "Impressionnant, t'es pas loin de la perfection !";
+            if (score >= 160) return "Bien joué, c'était presque ça !";
+            if (score >= 140) return "Pas mal du tout, t'as un bon oeil !";
+            if (score >= 120) return "T'es sur la bonne voie, continue !";
+            if (score >= 100) return "Bon score, mais y’a encore une marge !";
+            if (score >= 80) return "Ouloulou c’est pas fameux, mais on y croit !";
+            if (score >= 60) return "T’as visé la bonne planète, c’est déjà ça !";
+            if (score >= 40) return "Mdr, t’es sûr que t’as regardé la photo ?";
+            if (score >= 20) return "On va dire que t’as cliqué au hasard, hein ?";
+            return "0 points ?! Franchement, même Google Maps il fait mieux...";
+        }
     </script>
 </body>
 </html>
