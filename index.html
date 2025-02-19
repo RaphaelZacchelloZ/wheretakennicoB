@@ -14,6 +14,26 @@
         button:hover { background-color: #ccc; }
         #next-btn { margin-top: 20px; display: none; }
         @media (max-width: 600px) { #map { height: 300px; width: 90%; } }
+        #audio-controls {
+            margin: 10px;
+        }
+        .music-controls {
+            margin: 10px auto;  /* Changed from fixed position to margin auto */
+            text-align: center; /* Center the buttons */
+        }
+        .music-controls button {
+            display: inline-block;
+            margin: 0 5px;
+            padding: 5px 10px;
+            background-color: white;
+            color: #1e3a8a;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .music-controls button:hover {
+            background-color: #ccc;
+        }
     </style>
 </head>
 <body>
@@ -23,9 +43,19 @@
         <button onclick="checkPassword()">Submit</button>
         <p id="password-message"></p>
     </div>
+    <audio id="background-music" loop>
+        <source src="adam_music_file" type="audio/mp3">
+    </audio>
     
     <div id="game" style="display:none;">
         <h1>Bien joué, bienvenue à toi jeune aventureux</h1>
+        
+        <!-- Moved music controls here -->
+        <div class="music-controls">
+            <button onclick="playMusic()">Play Music</button>
+            <button onclick="stopMusic()">Stop Music</button>
+        </div>
+
         <img id="photo" src="" alt="Location Photo">
         <div id="map"></div>
         <button id="submit-btn" onclick="submitGuess()">Guess</button>
@@ -37,6 +67,20 @@
     </div>
 
     <script>
+        let backgroundMusic;
+        function playMusic() {
+            if (backgroundMusic) {
+                backgroundMusic.play();
+            }
+        }
+
+        function stopMusic() {
+            if (backgroundMusic) {
+                backgroundMusic.pause();
+                backgroundMusic.currentTime = 0;
+            }
+        }
+
         function checkPassword() {
             const enteredPassword = document.getElementById("password").value.toLowerCase().replace(/\s+/g, '');
             const validPasswords = ["quiveutducake?", "quiveutducake", "qui veut du cake?", "qui veut du cake"];
@@ -44,6 +88,9 @@
             if (validPasswords.includes(enteredPassword)) {
                 document.getElementById("password-page").style.display = "none";
                 document.getElementById("game").style.display = "block";
+                // Initialize music
+                backgroundMusic = document.getElementById("background-music");
+                backgroundMusic.play();
                 loadGame();
             } else {
                 document.getElementById("password-message").textContent = "Miiiip, essaie encore";
@@ -107,6 +154,15 @@
         }
 
         function showFinalScreen() {
+            // Stop the music
+            if (backgroundMusic) {
+                backgroundMusic.pause();
+                backgroundMusic.currentTime = 0;
+            }
+
+            // Hide music controls
+            document.querySelector('.music-controls').style.display = 'none';
+
             // Hide all game elements
             document.getElementById("photo").style.display = "none";
             document.getElementById("map").style.display = "none";
