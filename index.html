@@ -84,6 +84,38 @@
             }
         }
 
+        const wrongPasswordMessages = [
+            "Miiip, essaie encore !",
+            "C'est non Nico, et en plus c'était nul.",
+            "Mot de passe incorrect. Mais t'inquiète, t'es quand même une belle personne.",
+            "Hmm… pas aujourd'hui.",
+            "Qui t'a dit que c'était ça ? Sérieusement.",
+            "Erreur 404 : compétence en devinette non trouvée.",
+            "Trop chaud ? Trop froid ? En tout cas, c'est pas ça.",
+            "Tu peux essayer \"motdepasse\", mais ça marchera pas non plus.",
+            "Mot de passe refusé. Comme ton dernier vœu à la fontaine.",
+            "Tu pensais vraiment que ça allait marcher ? Adorable.",
+            "Access denied. Mais t'as gagné un sourire (de John).",
+            "Ça commence par \"mauvais\" et ça finit par \"mot de passe\".",
+            "Même ma grand-mère aurait deviné mieux.",
+            "C'était une bonne tentative... enfin, non.",
+            "La force n'est pas avec toi aujourd'hui NICOLAS.",
+            "Tu crois que tu es dans un escape game ou quoi ?",
+            "Pssst… le bon mot de passe, c'est pas celui-là.",
+            "Erreur humaine détectée. Relance du système.",
+            "On va pas se mentir, t'es loin du compte.",
+            "Désolé, je suis un mur impénétrable.",
+            "Mot de passe refusé. Mais j'apprécie l'effort.",
+            "Tu devrais peut-être demander un indice… ou une vie.",
+            "J'aurais bien validé, mais je suis un robot.",
+            "On ne donne pas les clés du royaume si facilement.",
+            "Ah ! Presque ! Enfin… non.",
+            "Le bon mot de passe est \"tu n'as pas le bon mot de passe\".",
+            "Tu veux que je te donne un indice ? Dommage, j'en ai pas.",
+            "N'y pense même pas, hacker en herbe.",
+            "Tu crois aux miracles, Mr Bourgwa ? Pense à qqchose que tu peux manger !"
+        ];
+
         function checkPassword() {
             const enteredPassword = document.getElementById("password").value.toLowerCase().replace(/\s+/g, '');
             const validPasswords = ["quiveutducake?", "quiveutducake", "qui veut du cake?", "qui veut du cake"];
@@ -96,7 +128,9 @@
                 backgroundMusic.play();
                 loadGame();
             } else {
-                document.getElementById("password-message").textContent = "Miiiip, essaie encore";
+                // Get random message from array
+                const randomIndex = Math.floor(Math.random() * wrongPasswordMessages.length);
+                document.getElementById("password-message").textContent = wrongPasswordMessages[randomIndex];
             }
         }
 
