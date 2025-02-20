@@ -44,7 +44,7 @@
         <p id="password-message"></p>
     </div>
     <audio id="background-music" loop>
-        <source src="your-music-file.mp3" type="audio/mp3">
+        <source src="adam_music_file.mp3" type="audio/mp3">
     </audio>
     
     <div id="game" style="display:none;">
@@ -68,6 +68,9 @@
 
     <script>
         let backgroundMusic;
+        window.onload = function() {
+            backgroundMusic = document.getElementById("background-music");
+        }
         function playMusic() {
             if (backgroundMusic) {
                 backgroundMusic.play();
