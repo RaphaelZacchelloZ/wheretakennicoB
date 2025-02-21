@@ -34,12 +34,17 @@
         .music-controls button:hover {
             background-color: #ccc;
         }
+        #password-message {
+        margin-top: 10px;
+        color: white;
+        font-size: 16px;
+    }
     </style>
 </head>
 <body>
     <div id="password-page">
         <h1>Password</h1>
-        <input type="password" id="password" placeholder="Enter password">
+        <input type="text" id="password" placeholder="Enter password">
         <button onclick="checkPassword()">Submit</button>
         <p id="password-message"></p>
     </div>
@@ -116,10 +121,10 @@
             "N'y pense même pas, hacker en herbe.",
             "Tu crois aux miracles, Mr Bourgwa ? Pense à qqchose que tu peux manger !"
         ];
-
+    
         function checkPassword() {
             const enteredPassword = document.getElementById("password").value.toLowerCase().replace(/\s+/g, '');
-            const validPasswords = ["quiveutducake?", "quiveutducake", "qui veut du cake?", "qui veut du cake"];
+            const validPasswords = ["quiveutducake?", "quiveutducake", "qui veut du cake?", "qui veut du cake", "Qui veut du cake", "Qui veut du cake?","Qui veut du cake ?"];
             
             if (validPasswords.includes(enteredPassword)) {
                 document.getElementById("password-page").style.display = "none";
