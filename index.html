@@ -35,10 +35,10 @@
             background-color: #ccc;
         }
         #password-message {
-        margin-top: 10px;
-        color: white;
-        font-size: 16px;
-    }
+            margin-top: 10px;
+            color: white;
+            font-size: 16px;
+        }
     </style>
 </head>
 <body>
@@ -225,27 +225,6 @@
             `;
         }
 
-            // Hide music controls
-            document.querySelector('.music-controls').style.display = 'none';
-
-            // Hide all game elements
-            document.getElementById("photo").style.display = "none";
-            document.getElementById("map").style.display = "none";
-            document.getElementById("submit-btn").style.display = "none";
-            document.getElementById("next-btn").style.display = "none";
-            document.getElementById("current-score").style.display = "none";
-            document.getElementById("total-score").style.display = "none";
-            document.getElementById("distance-message").style.display = "none";
-            document.getElementById("encouragement-message").style.display = "none";
-
-            // Show final message
-            const gameDiv = document.getElementById("game");
-            gameDiv.innerHTML = `
-                <h1>ehlaaaa bravo bien joué !!</h1>
-                <h2>Score final: ${totalScore}</h2>
-            `;
-        }
-
         function getDistance(lat1, lon1, lat2, lon2) {
             function toRad(value) { return value * Math.PI / 180; }
             const R = 6371;
@@ -276,7 +255,6 @@
             document.getElementById("submit-btn").style.display = "block";
             document.getElementById("encouragement-message").textContent = "";
             document.getElementById("distance-message").textContent = "";
-            // Removed the line that was resetting current score to 0
         }
           
         function getEncouragementMessage(score) {
@@ -285,11 +263,11 @@
             if (score >= 160) return "Bien joué, c'était presque ça !";
             if (score >= 140) return "Pas mal du tout, t'as un bon œil !";
             if (score >= 120) return "T'es sur la bonne voie, continue !";
-            if (score >= 100) return "Bon score, mais y’a encore une marge !";
-            if (score >= 80) return "Ouloulou c’est pas fameux, mais on y croit !";
-            if (score >= 60) return "T’as visé la bonne planète, c’est déjà ça !";
-            if (score >= 40) return "Mdr, t’es sûr que t’as regardé la photo ?";
-            if (score >= 20) return "On va dire que t’as cliqué au hasard, hein ?";
+            if (score >= 100) return "Bon score, mais y'a encore une marge !";
+            if (score >= 80) return "Ouloulou c'est pas fameux, mais on y croit !";
+            if (score >= 60) return "T'as visé la bonne planète, c'est déjà ça !";
+            if (score >= 40) return "Mdr, t'es sûr que t'as regardé la photo ?";
+            if (score >= 20) return "On va dire que t'as cliqué au hasard, hein ?";
             return "0 points ?! Franchement, même Google Maps fait mieux...";
         }
       
