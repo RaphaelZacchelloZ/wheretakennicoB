@@ -210,6 +210,28 @@
             document.getElementById("distance-message").style.display = "none";
             document.getElementById("encouragement-message").style.display = "none";
 
+            // Show final message with image
+            const gameDiv = document.getElementById("game");
+            gameDiv.innerHTML = `
+                <h1>ehlaaaa bravo bien joué !!</h1>
+                <h2>Score final: ${totalScore}</h2>
+                <img src="John.png" alt="John" style="max-width: 100%; height: auto; margin-top: 20px;">
+            `;
+        }
+
+            // Hide music controls
+            document.querySelector('.music-controls').style.display = 'none';
+
+            // Hide all game elements
+            document.getElementById("photo").style.display = "none";
+            document.getElementById("map").style.display = "none";
+            document.getElementById("submit-btn").style.display = "none";
+            document.getElementById("next-btn").style.display = "none";
+            document.getElementById("current-score").style.display = "none";
+            document.getElementById("total-score").style.display = "none";
+            document.getElementById("distance-message").style.display = "none";
+            document.getElementById("encouragement-message").style.display = "none";
+
             // Show final message
             const gameDiv = document.getElementById("game");
             gameDiv.innerHTML = `
